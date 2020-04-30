@@ -1,8 +1,10 @@
 import express from "express";
+import bodyparser from "body-parser";
 import webpack from "webpack";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import webpackHotMiddleware from "webpack-hot-middleware";
 import config from "../../webpack.config";
+
 const compiler = webpack(config);
 
 const server = express();
@@ -18,6 +20,7 @@ server.use(
 server.use(webpackHotMiddleware(compiler));
 server.use(express.static("build"));
 server.set("view engine", "ejs");
+server.use(bodyparser.json());
 
 server.get("/", (req, res) => {
   res.render("html");
